@@ -1,4 +1,4 @@
-from secrets import Tilgangskontroll
+from datatools.secrets import Tilgangskontroll
 import pandas as pd
 import timeit
 from google.cloud import bigquery
