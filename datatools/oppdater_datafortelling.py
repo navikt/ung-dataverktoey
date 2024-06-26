@@ -101,7 +101,7 @@ def main() -> None:
         )
 
     if inputs['env'] == "prod":
-        teamtoken: str = Tilgangskontroll().hent_datamarkedsplassen_team_token()
+        teamtoken: str = Tilgangskontroll().hent_datamarkedsplassen_team_token("PROD")
         os.system(
             f"""
         curl \
@@ -112,7 +112,7 @@ def main() -> None:
         """
         )
     if inputs['env'] == "dev":
-        teamtoken: str = Tilgangskontroll().hent_datamarkedsplassen_team_token()
+        teamtoken: str = Tilgangskontroll().hent_datamarkedsplassen_team_token("DEV")
         os.system(
             f"""
         curl \
