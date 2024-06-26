@@ -81,7 +81,7 @@ def main() -> None:
     if inputs['type'] == "datafortellinger":
         os.system(
             """quarto render \
-            fortelling.qmd \
+            datafortelling.qmd \
             --to html \
             --execute \
             --output index.html \
