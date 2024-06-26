@@ -41,7 +41,7 @@ def main() -> None:
 
     siste_input: str = ""
     while siste_input.lower() not in ['y', 'yes', 'no', 'n']:
-        siste_input = input(f"Bruke input fra siste oppdatering? ({inputs['datafortelling'] or ''}) y/N: ")
+        siste_input = input(f"Bruke input fra siste oppdatering? ({inputs.get('datafortelling', '')}) y/N: ")
     if siste_input.lower() in ["y", "yes"]:
         pass
     else: 
