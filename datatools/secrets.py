@@ -152,5 +152,5 @@ class Tilgangskontroll:
             env = "team_token_dmp"
         elif dev_env == "DEV":
             env = "team_token_dev_dmp"
-        team_token = self.gcp_hemmeligheter[env]
+        team_token = self.knada_hemeligheter[env]
         return team_token
