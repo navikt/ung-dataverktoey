@@ -1,0 +1,6 @@
+pandas
+google-cloud-secret-manager
+gcloud-config-helper
+setuptools
+google-cloud-bigquery
+db-dtypes

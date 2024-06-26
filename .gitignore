@@ -1,0 +1,8 @@
+.venv
+*.html
+*.ipynb
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*__pycache__
+*.egg-info
+config.ini
