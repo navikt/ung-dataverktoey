@@ -4,8 +4,6 @@ import yaml
 from typing import Dict
 from datatools.secrets import Tilgangskontroll
 
-tilgang = Tilgangskontroll().hent_datamarkedsplassen_team_token()
-
 
 def get_inputs() -> Dict[str, str]:
     """
