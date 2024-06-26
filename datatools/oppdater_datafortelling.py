@@ -2,7 +2,6 @@ import os
 import time
 import yaml
 from typing import Dict
-from datatools.secrets import hent_team_token, hent_team_token_dev
 from datatools.secrets import Tilgangskontroll
 
 tilgang = Tilgangskontroll().hent_datamarkedsplassen_team_token()
