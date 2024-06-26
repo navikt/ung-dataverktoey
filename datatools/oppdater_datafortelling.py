@@ -74,7 +74,7 @@ def main() -> None:
 
         save_inputs(inputs)
 
-    os.chdir(f"{inputs['type']}/{inputs['datafortelling']}")
+    os.chdir(f"{inputs['datafortelling']}")
     os.environ["TZ"] = "Europe/Oslo"
     time.tzset()
 
