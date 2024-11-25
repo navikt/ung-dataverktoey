@@ -1,0 +1,38 @@
+[project]
+name = "ung-dataverktoey"
+version = "0.1.0"
+description = "Lokal pythonpakke for databehandlingsverktøy"
+readme = "README.md"
+authors = [
+    { name = "hellund", email = "eirik.duesund.helland@nav.no" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "pandas>=2.2.3",
+    "pyyaml>=6.0.2",
+    "db-dtypes>=1.3.0",
+    "google-cloud-bigquery-storage>=2.27.0",
+    "google-cloud-bigquery>=3.27.0",
+    "setuptools>=75.4.0",
+    "gcloud-config-helper>=0.3.1",
+    "google-cloud-secret-manager>=2.21.0",
+]
+
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "nbstripout>=0.8.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.7.3",
+    "ung-dataverktoey",
+]
+
+[tool.uv.sources]
+ung-dataverktoey = { workspace = true }

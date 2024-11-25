@@ -5,5 +5,5 @@
 */.ipynb_checkpoints/*
 *__pycache__
 *.egg-info
-config.ini
 *.oppdater_datafortelling_siste_inputt.yaml
+config.ini

@@ -1,26 +1,27 @@
-from datatools.secrets import Tilgangskontroll
-import pandas as pd
+from ung_dataverktoey.secrets import Tilgangskontroll
 import timeit
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-class DatabaseConnector:
 
+class DatabaseConnector:
     def __init__(self):
         self.tilgang = Tilgangskontroll()
 
     def koble_til_database(self, kilde):
         if kilde == "BQ":
             if self.tilgang.sjekk_om_kjoerelokasjon_er_lokal():
-                connection = bigquery.Client(self.tilgang.prosjektnavn)  
+                connection = bigquery.Client(self.tilgang.prosjektnavn)
             else:
                 kredentiteter = service_account.Credentials.from_service_account_info(
-                    self.tilgang.knada_hemeligheter["service_account_key"])
-                connection = bigquery.Client(self.tilgang.prosjektnavn, 
-                                            credentials=kredentiteter)
+                    self.tilgang.knada_hemeligheter["service_account_key"]
+                )
+                connection = bigquery.Client(
+                    self.tilgang.prosjektnavn, credentials=kredentiteter
+                )
 
         return connection
-    
+
 
 def kjoer_spoerring(sql, database, time=False, args=None):
     db_connector = DatabaseConnector()
