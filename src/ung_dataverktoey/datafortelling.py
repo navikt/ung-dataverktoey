@@ -2,7 +2,7 @@ import os
 import time
 import yaml
 from typing import Dict
-from datatools.secrets import Tilgangskontroll
+from ung_dataverktoey.secrets import Tilgangskontroll
 
 
 def get_inputs() -> Dict[str, str]:
@@ -12,12 +12,13 @@ def get_inputs() -> Dict[str, str]:
     Returns:
         dict: En ordbok med inputtene.
     """
-    inputs_file = 'oppdater_datafortelling_siste_inputt.yaml'
+    inputs_file = "oppdater_datafortelling_siste_inputt.yaml"
     if os.path.exists(inputs_file):
-        with open(inputs_file, 'r') as file:
+        with open(inputs_file, "r") as file:
             return yaml.safe_load(file)
     else:
         return {}
+
 
 def save_inputs(inputs: Dict[str, str]) -> None:
     """
@@ -26,13 +27,14 @@ def save_inputs(inputs: Dict[str, str]) -> None:
     Args:
         inputs (dict): En ordbok med inputtene som skal lagres.
     """
-    inputs_file = 'oppdater_datafortelling_siste_inputt.yaml'
-    with open(inputs_file, 'w') as file:
+    inputs_file = "oppdater_datafortelling_siste_inputt.yaml"
+    with open(inputs_file, "w") as file:
         yaml.dump(inputs, file)
+
 
 def main() -> None:
     """
-    Hovedfunksjonen som kjører programmet. Den henter inputtene fra brukeren eller fra en fil, 
+    Hovedfunksjonen som kjører programmet. Den henter inputtene fra brukeren eller fra en fil,
     og deretter utfører den kommandoer basert på inputtene.
     """
     inputs: Dict[str, str] = get_inputs()
@@ -40,11 +42,13 @@ def main() -> None:
         inputs = {}
 
     siste_input: str = ""
-    while siste_input.lower() not in ['y', 'yes', 'no', 'n']:
-        siste_input = input(f"Bruke input fra siste oppdatering? ({inputs.get('datafortelling', '')}) y/N: ")
+    while siste_input.lower() not in ["y", "yes", "no", "n"]:
+        siste_input = input(
+            f"Bruke input fra siste oppdatering? ({inputs.get('datafortelling', '')}) y/N: "
+        )
     if siste_input.lower() in ["y", "yes"]:
         pass
-    else: 
+    else:
         dashboard: str = ""
         while dashboard.lower() not in ["f", "d"]:
             dashboard = input(
@@ -66,11 +70,11 @@ def main() -> None:
         datafortelling: str = input("Navn på fortelling/dashboard: ")
         token: str = input("Datafortelling-/dashboardtoken: ")
 
-        inputs['dashboard'] = dashboard
-        inputs['type'] = type
-        inputs['env'] = env
-        inputs['datafortelling'] = datafortelling
-        inputs['token'] = token
+        inputs["dashboard"] = dashboard
+        inputs["type"] = type
+        inputs["env"] = env
+        inputs["datafortelling"] = datafortelling
+        inputs["token"] = token
 
         save_inputs(inputs)
 
@@ -78,7 +82,7 @@ def main() -> None:
     os.environ["TZ"] = "Europe/Oslo"
     time.tzset()
 
-    if inputs['type'] == "datafortellinger":
+    if inputs["type"] == "datafortellinger":
         os.system(
             """quarto render \
             datafortelling.qmd \
@@ -88,7 +92,7 @@ def main() -> None:
             -M self-contained:True
             """
         )
-    if inputs['type'] == "dashboards":
+    if inputs["type"] == "dashboards":
         os.system(
             """quarto render \
             dashboard.qmd \
@@ -98,7 +102,7 @@ def main() -> None:
             """
         )
 
-    if inputs['env'] == "prod":
+    if inputs["env"] == "prod":
         teamtoken: str = Tilgangskontroll().hent_datamarkedsplassen_team_token("PROD")
         os.system(
             f"""
@@ -109,7 +113,7 @@ def main() -> None:
         https://datamarkedsplassen.intern.nav.no/quarto/update/{inputs['token']}
         """
         )
-    if inputs['env'] == "dev":
+    if inputs["env"] == "dev":
         teamtoken: str = Tilgangskontroll().hent_datamarkedsplassen_team_token("DEV")
         os.system(
             f"""
@@ -120,6 +124,7 @@ def main() -> None:
         https://datamarkedsplassen.intern.dev.nav.no/quarto/update/{inputs['token']}
         """
         )
+
 
 if __name__ == "__main__":
     main()
