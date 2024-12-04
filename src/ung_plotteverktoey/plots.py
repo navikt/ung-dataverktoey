@@ -249,7 +249,7 @@ class KommentarDiagram(HighChartBase):
         # Define the JavaScript function for the tooltip formatter
         formatter_js = f"""
         function myTooltipFormatter() {{
-            var chartData = JSON.parse('{chart_data_json.replace("'", "\\'")}');
+            var chartData = JSON.parse('{chart_data_json.replace("'", "\'").replace('"', '\"')}');
             var pointData = chartData.find(row => row.x === this.point.x);
             return '<b>Svar nr:</b> ' + pointData.svar_nr + '<br>' +
                 '<b>Kommentar:</b> ' + '<br>' + pointData.kommentar;
