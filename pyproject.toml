@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "hellund", email = "eirik.duesund.helland@nav.no" }
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.2.3",
     "pyyaml>=6.0.2",
@@ -16,6 +16,7 @@ dependencies = [
     "setuptools>=75.4.0",
     "gcloud-config-helper>=0.3.1",
     "google-cloud-secret-manager>=2.21.0",
+    "highcharts-core>=1.10.2",
 ]
 
 
@@ -37,8 +38,6 @@ dev = [
     "nbstripout>=0.8.0",
     "pre-commit>=4.0.1",
     "ruff>=0.7.3",
-    "ung-dbverktoey",
-    "ung-plotteverktoey"
 ]
 
 [tool.uv.sources]
