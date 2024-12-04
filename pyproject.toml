@@ -1,6 +1,6 @@
 [project]
 name = "ung-dataverktoey"
-version = "0.1.0"
+version = "0.2.0"
 description = "Lokal pythonpakke for databehandlingsverktøy"
 readme = "README.md"
 authors = [
@@ -31,8 +31,10 @@ dev = [
     "nbstripout>=0.8.0",
     "pre-commit>=4.0.1",
     "ruff>=0.7.3",
-    "ung-dataverktoey",
+    "ung-dbverktoey",
+    "ung-plotteverktoey"
 ]
 
 [tool.uv.sources]
 ung-dataverktoey = { workspace = true }
+
