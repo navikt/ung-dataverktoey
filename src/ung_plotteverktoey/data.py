@@ -116,7 +116,7 @@ class StabletKolonneData(HighChartData):
         if self.farger_seed is not None:
             np.random.seed(self.farger_seed)
 
-        for kolonne, data in antall.items():
+        for kolonne, svar, data in zip(antall.keys(), self.svar_alternativer, antall.values()):
             if self.tilfeldige_farger:
                 colors = np.random.choice(load_cmap("flattastic_flatui").colors, len(data), replace=False).tolist()
             else:
@@ -125,7 +125,7 @@ class StabletKolonneData(HighChartData):
             data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
 
             formatert_data.append({
-                'name': kolonne,
+                'name': svar,
                 'type': 'column',
                 'data': data_with_colors,
                 'stack': 'Svar'
