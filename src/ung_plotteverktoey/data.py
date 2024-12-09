@@ -8,10 +8,14 @@ import random
 
 class HighChartData:
     def __init__(self, 
-                 filnavn: str, 
-                 kolonner: List[str], 
-                 svar_alternativer: List[str],
+                 filnavn: str = None, 
+                 kilde: str = None,
+                 df: pd.DataFrame = None,
+                 kolonner: List[str] = None, 
+                 svar_alternativer: List[str] = None,
                  ):
+        self.kilde = kilde
+        self.df = df
         self.filnavn = filnavn
         self.kolonner = kolonner
         self.svar_alternativer = svar_alternativer
@@ -26,6 +30,11 @@ class HighChartData:
             .replace('\xa0', '_')
             .replace('\n', '')
         )
+    
+    def les_df(self) -> pd.DataFrame:
+        df_selected = self.df[self.kolonner]
+        return df_selected
+        
 
     def les_excel(self) -> pd.DataFrame:
         df = pd.read_excel(io=self.filnavn, engine='openpyxl')
@@ -60,7 +69,12 @@ class HighChartData:
 class KolonneData(HighChartData):
     
     def lag_dataserier(self) -> List[Dict]:
-        df = self.les_excel()
+        if self.kilde == 'excel':
+            df = self.les_excel()
+        elif self.kilde == 'df':
+            df = self.les_df()
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         antall = self.tell_antall(df)
         formatert_data = []
         for kolonne, data in antall.items():
@@ -76,7 +90,12 @@ class KolonneData(HighChartData):
 class StabletKolonneData(HighChartData):
 
     def lag_dataserier(self) -> List[Dict]:
-        df = self.les_excel()
+        if self.kilde == 'excel':
+            df = self.les_excel()
+        elif self.kilde == 'df':
+            df = self.les_df()
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         antall = self.tell_antall(df)
         formatert_data = []
         for svar in self.svar_alternativer:
@@ -127,7 +146,12 @@ class ParallellData(HighChartData):
         return parallel_coordinates_data
 
     def lag_dataserier(self) -> List[Dict]:
-        df = self.les_excel()
+        if self.kilde == 'excel':
+            df = self.les_excel()
+        elif self.kilde == 'df':
+            df = self.les_df()
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         df = self.langt_format(df)
         df, self.respons_mapping = self.map_responser_til_verdier(df)
         data = self.generer_parallell_koordinat_data(df)
@@ -146,7 +170,12 @@ class IndikatorData(HighChartData):
         return  df.mean().values[0]
 
     def lag_dataserier(self) -> List[Dict]:
-        df = self.les_excel()
+        if self.kilde == 'excel':
+            df = self.les_excel()
+        elif self.kilde == 'df':
+            df = self.les_df()
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         gj_snitt = self.finn_gjennomsnitt(df)
 
         formatert_data = [{
@@ -185,7 +214,12 @@ class PieData(HighChartData):
         return data
 
     def lag_dataserier(self) -> List[Dict]:
-        df = self.les_excel()
+        if self.kilde == 'excel':
+            df = self.les_excel()
+        elif self.kilde == 'df':
+            df = self.les_df()
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         data = self.finn_andel(df)
         formatert_data = [{
             'tooltip': {'value_suffix': '%', 'value_decimals': '1'},
@@ -228,7 +262,12 @@ class BulletData(HighChartData):
         return df_spoersmaal['Svar'].mean()
 
     def lag_dataserier(self) -> List[Dict]:
-        df = self.les_excel()
+        if self.kilde == 'excel':
+            df = self.les_excel()
+        elif self.kilde == 'df':
+            df = self.les_df()
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         df_long = self.langt_format(df)
         df_long['Svar'] = pd.to_numeric(df_long['Svar'], errors='coerce')
 

@@ -2,7 +2,7 @@ import os
 import time
 import yaml
 from typing import Dict
-from ung_dbverktoey.secrets import Tilgangskontroll
+from ung_dbverktoey.hemmeligheter import Tilgangskontroll
 
 
 def get_inputs() -> Dict[str, str]:

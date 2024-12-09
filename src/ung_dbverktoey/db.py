@@ -1,4 +1,4 @@
-from ung_dbverktoey.secrets import Tilgangskontroll
+from ung_dbverktoey.hemmeligheter import Tilgangskontroll
 import timeit
 from google.cloud import bigquery
 from google.oauth2 import service_account
