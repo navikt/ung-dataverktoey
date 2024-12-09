@@ -319,7 +319,7 @@ class JitterKommentarData(HighChartData):
                 'x': jitter_x,
                 'y': jitter_y, 
                 'custom': {
-                    'kommentar': row[self.kommentar][:30] + '...' if len(row[self.kommentar]) > 30 else row[self.kommentar],
+                    'kommentar': row[self.kommentar],
                 }
             })
         return jitter_data
