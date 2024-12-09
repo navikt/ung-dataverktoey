@@ -88,12 +88,14 @@ class KolonneData(HighChartData):
             if self.tilfeldige_farger:
                 colors = np.random.choice(load_cmap("flattastic_flatui").colors, len(data), replace=False).tolist()
             else:
-                colors = load_cmap("flattastic_flatui").colors
+                colors = [load_cmap("flattastic_flatui").colors[i % len(load_cmap("flattastic_flatui").colors)] for i in range(len(data))]
+
+            data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
+
             formatert_data.append({
                 'name': kolonne,
                 'type': 'column',
-                'data': data,
-                'colors': colors,
+                'data': data_with_colors,
                 'colorByPoint': True
             })
         return formatert_data
@@ -112,18 +114,20 @@ class StabletKolonneData(HighChartData):
         if self.farger_seed is not None:
             np.random.seed(self.farger_seed)
 
-        for svar in self.svar_alternativer:
-            data = [antall[kolonne][self.svar_alternativer.index(svar)] for kolonne in self.kolonner]
+        for kolonne, data in antall.items():
             if self.tilfeldige_farger:
-                color = np.random.choice(load_cmap("flattastic_flatui").colors)
+                colors = np.random.choice(load_cmap("flattastic_flatui").colors, len(data), replace=False).tolist()
             else:
-                color = load_cmap("flattastic_flatui").colors[self.svar_alternativer.index(svar) % len(load_cmap("flattastic_flatui").colors)]
+                colors = [load_cmap("flattastic_flatui").colors[i % len(load_cmap("flattastic_flatui").colors)] for i in range(len(data))]
+
+            data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
+
             formatert_data.append({
-                'name': svar,
+                'name': kolonne,
                 'type': 'column',
                 'data': data,
                 'stack': 'Svar',
-                'color': color
+                'color': data_with_colors
             })
         return formatert_data
     
