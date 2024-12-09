@@ -281,9 +281,13 @@ class BulletData(HighChartData):
 
 
 class JitterKommentarData(HighChartData):
-    def __init__(self, filnavn: str, 
-                 kolonner: Dict[str, str],
-                 svar_alternativer: List[str]):
+    def __init__(self, 
+                 kilde: str = None,
+                 df: str = None,
+                 filnavn: str = None, 
+                 kolonner: Dict[str, str] = None,
+                 svar_alternativer: List[str] = None):
+        self.kilde = kilde       
         self.svar_alternativer = svar_alternativer
         self.kolonner = kolonner
         self.score = self.kolonner.get('score', 'score')
@@ -291,7 +295,16 @@ class JitterKommentarData(HighChartData):
         self.kommentar = self.kolonner.get('kommentar', 'kommentar')
         self.df = self.df_from_pickle(filnavn)
         self.dataserier = self.lag_dataserier()
-    
+
+    def get_df(self):
+        if self.kilde == 'pickle':
+            df = self.df_from_pickle
+        elif self.kilde == 'df':
+            df = self.df
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'pickle' or 'df'.")
+        return df
+
     def df_from_pickle(self, filnavn):
         with open(filnavn, 'rb') as f:
             df = pickle.load(f)
