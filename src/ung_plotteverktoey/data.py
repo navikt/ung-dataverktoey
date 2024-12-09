@@ -69,6 +69,15 @@ class HighChartData:
                           value_name='Svar')
         return df_lang
     
+    def get_colors(self, num_colors: int) -> List[str]:
+        if self.farger_seed is not None:
+            np.random.seed(self.farger_seed)
+        if self.tilfeldige_farger:
+            colors = np.random.choice(load_cmap("flattastic_flatui").colors, num_colors, replace=False).tolist()
+        else:
+            colors = [load_cmap("flattastic_flatui").colors[i % len(load_cmap("flattastic_flatui").colors)] for i in range(num_colors)]
+        return colors
+
 
 class KolonneData(HighChartData):
     
@@ -82,15 +91,8 @@ class KolonneData(HighChartData):
         antall = self.tell_antall(df)
         formatert_data = []
 
-        if self.farger_seed is not None:
-            np.random.seed(self.farger_seed)
-
         for kolonne, svar, data in zip(antall.keys(), self.svar_alternativer, antall.values()):
-            if self.tilfeldige_farger:
-                colors = np.random.choice(load_cmap("flattastic_flatui").colors, len(data), replace=False).tolist()
-            else:
-                colors = [load_cmap("flattastic_flatui").colors[i % len(load_cmap("flattastic_flatui").colors)] for i in range(len(data))]
-
+            colors = self.get_colors(len(data))
             data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
 
             formatert_data.append({
@@ -113,15 +115,10 @@ class StabletKolonneData(HighChartData):
         antall = self.tell_antall(df)
         formatert_data = []
 
-        if self.farger_seed is not None:
-            np.random.seed(self.farger_seed)
-
         for svar in self.svar_alternativer:
             data = [antall[kolonne][self.svar_alternativer.index(svar)] for kolonne in self.kolonner]
-            if self.tilfeldige_farger:
-                color = np.random.choice(load_cmap("flattastic_flatui").colors)
-            else:
-                color = load_cmap("flattastic_flatui").colors[self.svar_alternativer.index(svar) % len(load_cmap("flattastic_flatui").colors)]
+            colors = self.get_colors(len(data))
+            color = colors[self.svar_alternativer.index(svar) % len(colors)]
 
             formatert_data.append({
                 'name': svar,
@@ -131,7 +128,7 @@ class StabletKolonneData(HighChartData):
                 'color': color
             })
         return formatert_data
-    
+
 
 class ParallellData(HighChartData):
     def __init__(self, filnavn: str, kolonner: List[str], svar_alternativer: Dict[str, List[str]] = None, tilfeldige_farger: bool = None, farger_seed: int = None):
