@@ -112,6 +112,7 @@ class StabletKolonneData(HighChartData):
             raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         antall = self.tell_antall(df)
         formatert_data = []
+
         if self.farger_seed is not None:
             np.random.seed(self.farger_seed)
 
@@ -126,9 +127,8 @@ class StabletKolonneData(HighChartData):
             formatert_data.append({
                 'name': kolonne,
                 'type': 'column',
-                'data': data,
-                'stack': 'Svar',
-                'color': data_with_colors
+                'data': data_with_colors,
+                'stack': 'Svar'
             })
         return formatert_data
     
