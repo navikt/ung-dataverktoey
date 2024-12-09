@@ -125,7 +125,7 @@ class StabletKolonneData(HighChartData):
             data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
 
             formatert_data.append({
-                'name': kolonne,
+                'name': svar,
                 'type': 'column',
                 'data': data_with_colors,
                 'stack': 'Svar'
