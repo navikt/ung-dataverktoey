@@ -2,7 +2,6 @@ from ung_dbverktoey.hemmeligheter import Tilgangskontroll
 from msal import ConfidentialClientApplication
 import httpx
 import io
-import pandas as pd
 
 class SharepointConnector:
 

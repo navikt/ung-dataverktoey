@@ -22,6 +22,14 @@ dependencies = [
     "openpyxl>=3.1.5",
 ]
 
+[project.optional-dependencies]
+ml = [
+    "langchain-community>=0.3.10",
+    "langchain>=0.3.10",
+    "langchain-ollama>=0.2.1",
+    "langchain-core>=0.3.22",
+]
+
 
 
 [build-system]
@@ -31,7 +39,8 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = [
     "src/ung_dbverktoey",
-    "src/ung_plotteverktoey"
+    "src/ung_plotteverktoey",
+    "src/ung_mlverktoey"
 ]
 
 [dependency-groups]
