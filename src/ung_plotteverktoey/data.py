@@ -70,6 +70,7 @@ class HighChartData:
         return df_lang
     
     def get_colors(self, num_colors: int) -> List[str]:
+        # Added method to handle color assignment
         if self.farger_seed is not None:
             np.random.seed(self.farger_seed)
         if self.tilfeldige_farger:
@@ -92,7 +93,7 @@ class KolonneData(HighChartData):
         formatert_data = []
 
         for kolonne, svar, data in zip(antall.keys(), self.svar_alternativer, antall.values()):
-            colors = self.get_colors(len(data))
+            colors = self.get_colors(len(data))  # Changed to use get_colors method
             data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
 
             formatert_data.append({
@@ -115,10 +116,11 @@ class StabletKolonneData(HighChartData):
         antall = self.tell_antall(df)
         formatert_data = []
 
+        colors = self.get_colors(len(self.svar_alternativer))  # Generate colors for all svar_alternativer
+
         for svar in self.svar_alternativer:
             data = [antall[kolonne][self.svar_alternativer.index(svar)] for kolonne in self.kolonner]
-            colors = self.get_colors(len(data))
-            color = colors[self.svar_alternativer.index(svar) % len(colors)]
+            color = colors[self.svar_alternativer.index(svar) % len(colors)]  # Assign unique color to each svar
 
             formatert_data.append({
                 'name': svar,
