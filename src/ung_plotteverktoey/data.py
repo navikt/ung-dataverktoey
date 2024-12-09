@@ -293,7 +293,8 @@ class JitterKommentarData(HighChartData):
         self.score = self.kolonner.get('score', 'score')
         self.label = self.kolonner.get('label', 'label')
         self.kommentar = self.kolonner.get('kommentar', 'kommentar')
-        self.df = self.df_from_pickle(filnavn)
+        self.df = df
+        self.df = self.get_df()
         self.dataserier = self.lag_dataserier()
 
     def get_df(self):
