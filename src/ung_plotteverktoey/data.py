@@ -100,7 +100,6 @@ class KolonneData(HighChartData):
                 'name': svar,
                 'type': 'column',
                 'data': data_with_colors,
-                'stack': 'Svar'
             })
         return formatert_data
     
