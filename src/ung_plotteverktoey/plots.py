@@ -232,7 +232,7 @@ class JitterKommentarDiagram(HighChartBase):
                 'categories': [0, 'Positive', 'Mixed', 'Negative', 'Neutral']
             },
             y_axis={
-                'title': {'text': 'Sikkerhet'},
+                'title': {'text': ' '},
             },
             series=self.data.dataserier
         )

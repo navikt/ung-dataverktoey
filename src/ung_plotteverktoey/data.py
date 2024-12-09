@@ -314,9 +314,10 @@ class JitterKommentarData(HighChartData):
         jitter_data = []
         for _, row in df.iterrows():
             jitter_x = x_value + (0.7 * (0.5 - np.random.rand()))
+            jitter_y = np.random.rand()
             jitter_data.append({
                 'x': jitter_x,
-                'y': x_value,  # Use x_value as y-coordinate for simplicity
+                'y': jitter_y, 
                 'custom': {
                     'kommentar': row[self.kommentar][:30] + '...' if len(row[self.kommentar]) > 30 else row[self.kommentar],
                 }
