@@ -88,8 +88,7 @@ class KolonneData(HighChartData):
             if self.tilfeldige_farger:
                 colors = np.random.choice(load_cmap("flattastic_flatui").colors, len(data), replace=False).tolist()
             else:
-                colors = load_cmap("flattastic_flatui").colors.tolist()
-
+                colors = load_cmap("flattastic_flatui").colors
             formatert_data.append({
                 'name': kolonne,
                 'type': 'column',
