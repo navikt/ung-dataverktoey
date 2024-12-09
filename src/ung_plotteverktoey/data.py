@@ -97,7 +97,7 @@ class KolonneData(HighChartData):
             data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
 
             formatert_data.append({
-                'name': svar,
+                'name': kolonne,
                 'type': 'column',
                 'data': data_with_colors,
             })
