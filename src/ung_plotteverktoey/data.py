@@ -13,12 +13,16 @@ class HighChartData:
                  df: pd.DataFrame = None,
                  kolonner: List[str] = None, 
                  svar_alternativer: List[str] = None,
+                 tilfeldige_farger: bool = None,
+                 farger_seed: int = None
                  ):
         self.kilde = kilde
         self.df = df
         self.filnavn = filnavn
         self.kolonner = kolonner
         self.svar_alternativer = svar_alternativer
+        self.tilfeldige_farger = tilfeldige_farger
+        self.farger_seed = farger_seed
         self.dataserier = self.lag_dataserier()
 
     def normaliser_kolonne(self, kolonne_navn):
@@ -77,12 +81,20 @@ class KolonneData(HighChartData):
             raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         antall = self.tell_antall(df)
         formatert_data = []
+        if self.seed is not None:
+            np.random.seed(self.seed)
+
         for kolonne, data in antall.items():
+            if self.tilfeldige_farger:
+                colors = np.random.choice(load_cmap("flattastic_flatui").colors, len(data), replace=False)
+            else:
+                colors = load_cmap("flattastic_flatui").colors
+
             formatert_data.append({
                 'name': kolonne,
                 'type': 'column',
                 'data': data,
-                'colors': load_cmap("flattastic_flatui").colors,
+                'colors': colors,
                 'colorByPoint': True
             })
         return formatert_data
@@ -98,22 +110,29 @@ class StabletKolonneData(HighChartData):
             raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         antall = self.tell_antall(df)
         formatert_data = []
+        if self.farger_seed is not None:
+            np.random.seed(self.farger_seed)
+
         for svar in self.svar_alternativer:
             data = [antall[kolonne][self.svar_alternativer.index(svar)] for kolonne in self.kolonner]
+            if self.tilfeldige_farger:
+                color = np.random.choice(load_cmap("flattastic_flatui").colors)
+            else:
+                color = load_cmap("flattastic_flatui").colors[self.svar_alternativer.index(svar) % len(load_cmap("flattastic_flatui").colors)]
             formatert_data.append({
                 'name': svar,
                 'type': 'column',
                 'data': data,
                 'stack': 'Svar',
-                'color': load_cmap("flattastic_flatui").colors[self.svar_alternativer.index(svar) % len(load_cmap("flattastic_flatui").colors)]
+                'color': color
             })
         return formatert_data
     
 
 class ParallellData(HighChartData):
-    def __init__(self, filnavn: str, kolonner: List[str], svar_alternativer: Dict[str, List[str]] = None):
+    def __init__(self, filnavn: str, kolonner: List[str], svar_alternativer: Dict[str, List[str]] = None, tilfeldige_farger: bool = None, farger_seed: int = None):
         self.svar_alternativer = svar_alternativer or {}
-        super().__init__(filnavn, kolonner, self.svar_alternativer)
+        super().__init__(filnavn, kolonner, self.svar_alternativer, tilfeldige_farger=tilfeldige_farger, farger_seed=farger_seed)
 
     def langt_format(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.reset_index(names='idx')
@@ -250,7 +269,7 @@ class PieData(HighChartData):
             'showInLegend': False,
         }]
         return formatert_data
-    
+
 
 class BulletData(HighChartData):
     def __init__(self, filnavn: str, kolonner: List[str], svar_alternativer: List[str], x_axis_categories: List[str] = None):
