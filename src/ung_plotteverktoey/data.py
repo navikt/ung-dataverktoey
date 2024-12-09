@@ -102,7 +102,6 @@ class KolonneData(HighChartData):
         return formatert_data
     
 class StabletKolonneData(HighChartData):
-
     def lag_dataserier(self) -> List[Dict]:
         if self.kilde == 'excel':
             df = self.les_excel()
@@ -110,25 +109,26 @@ class StabletKolonneData(HighChartData):
             df = self.les_df()
         else:
             raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
+
         antall = self.tell_antall(df)
         formatert_data = []
 
         if self.farger_seed is not None:
             np.random.seed(self.farger_seed)
 
-        for kolonne, svar, data in zip(antall.keys(), self.svar_alternativer, antall.values()):
+        for svar in self.svar_alternativer:
+            data = [antall[kolonne][self.svar_alternativer.index(svar)] for kolonne in self.kolonner]
             if self.tilfeldige_farger:
-                colors = np.random.choice(load_cmap("flattastic_flatui").colors, len(data), replace=False).tolist()
+                color = np.random.choice(load_cmap("flattastic_flatui").colors)
             else:
-                colors = [load_cmap("flattastic_flatui").colors[i % len(load_cmap("flattastic_flatui").colors)] for i in range(len(data))]
-
-            data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
+                color = load_cmap("flattastic_flatui").colors[self.svar_alternativer.index(svar) % len(load_cmap("flattastic_flatui").colors)]
 
             formatert_data.append({
                 'name': svar,
                 'type': 'column',
-                'data': data_with_colors,
-                'stack': 'Svar'
+                'data': data,
+                'stack': 'Svar',
+                'color': color
             })
         return formatert_data
     
