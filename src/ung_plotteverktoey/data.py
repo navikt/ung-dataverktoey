@@ -289,8 +289,7 @@ class JitterKommentarData(HighChartData):
                  svar_alternativer: List[str] = None):
         self.kilde = kilde       
         self.svar_alternativer = svar_alternativer
-        self.kolonner = kolonner
-        self.score = self.kolonner.get('score', 'score')
+        self.kolonner = kolonner or {}
         self.label = self.kolonner.get('label', 'label')
         self.kommentar = self.kolonner.get('kommentar', 'kommentar')
         self.df = df
@@ -311,17 +310,15 @@ class JitterKommentarData(HighChartData):
             df = pickle.load(f)
         return df
 
-
     def lag_jitter_data(self, df, x_value):
         jitter_data = []
         for _, row in df.iterrows():
             jitter_x = x_value + (0.7 * (0.5 - np.random.rand()))
-            jitter_y = row[self.score]
             jitter_data.append({
                 'x': jitter_x,
-                'y': jitter_y,
+                'y': x_value,  # Use x_value as y-coordinate for simplicity
                 'custom': {
-                    'kommentar': row[self.kommentar][:30] + '...',
+                    'kommentar': row[self.kommentar][:30] + '...' if len(row[self.kommentar]) > 30 else row[self.kommentar],
                 }
             })
         return jitter_data
@@ -344,7 +341,7 @@ class JitterKommentarData(HighChartData):
                 },
                 'color': colors[i],
                 'tooltip': {
-                    'pointFormat': 'Sikkerhet: {point.y:.2f} <br>{point.custom.kommentar}'
+                    'pointFormat': '{point.custom.kommentar}'
                 },
             })
         return dataserie
