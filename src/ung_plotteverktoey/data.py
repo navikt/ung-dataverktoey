@@ -387,7 +387,9 @@ class KommentarData(HighChartData):
         self.dataserier = self.lag_dataserier()
     
     def formater_kommentar_linjeskift(self, comment, max_length=50):
-        words = comment.split()  # Split into words
+        if not isinstance(comment, str):
+            return comment  # Return the original value if it's not a string
+        words = comment.split() # Split into words
         formatted_comment = ''
         current_line_length = 0
         for word in words:
@@ -411,7 +413,7 @@ class KommentarData(HighChartData):
         
         # Iterate over each column in kolonner and apply the formatting function
         for col in self.kolonner:
-            df[col] = df[col].apply(lambda x: (self.formater_kommentar_linjeskift(x), print(x)))
+            df[col] = df[col].apply(lambda x: self.formater_kommentar_linjeskift(x))
 
         # Prepare data for Highcharts
         jitter_data = []
