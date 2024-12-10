@@ -94,7 +94,7 @@ class KolonneData(HighChartData):
         antall = self.tell_antall(df)
         formatert_data = []
 
-        for kolonne, label, svar, data in zip(antall.keys(), self.x_axis_labels, self.svar_alternativer, antall.values()):
+        for kolonne, label, data in zip(antall.keys(), self.x_axis_labels, antall.values()):
             colors = self.get_colors(len(data))  # Changed to use get_colors method
             data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
 
