@@ -130,6 +130,12 @@ class StabletKolonneData(HighChartData):
                 'stack': 'Svar',
                 'color': color
             })
+        # Update x-axis labels if custom labels are provided
+        if self.x_axis_labels:
+            for i, label in enumerate(self.x_axis_labels):
+                if i < len(formatert_data):
+                    formatert_data[i]['name'] = label  # Use the custom label
+
         return formatert_data
 
 
