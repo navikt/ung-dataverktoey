@@ -45,7 +45,7 @@ class StabletKolonneDiagram(HighChartBase):
             chart={'renderTo': self.diagram_id, 'type': 'column'},
             title={'text': self.tittel},
             subtitle={'text': self.undertittel},
-            x_axis={'categories': self.data.xaxis_labels or self.data.kolonner},
+            x_axis={'categories': self.data.x_axis_labels or self.data.kolonner},
             y_axis={'title': {'text': self.y_akse_tekst}},
             series=self.data.dataserier,
             credits={'enabled': False},
