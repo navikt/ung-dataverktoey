@@ -373,12 +373,17 @@ class JitterKommentarData(HighChartData):
     
 
 class KommentarData(HighChartData):
-    def __init__(self, filnavn: str, 
-                kolonner: Dict[str, str],
-                svar_alternativer: List[str]):
+    def __init__(self, 
+                 filnavn: str = None, 
+                kolonner: Dict[str, str] = None,
+                svar_alternativer: List[str] = None,
+                kilde: str = None,
+                df: pd.DataFrame = None):
         self.filnavn = filnavn
         self.svar_alternativer = svar_alternativer
         self.kolonner = kolonner
+        self.kilde = kilde
+        self.df = df
         self.dataserier = self.lag_dataserier()
     
     def formater_kommentar_linjeskift(self, comment, max_length=50):
@@ -394,7 +399,12 @@ class KommentarData(HighChartData):
         return formatted_comment.strip()  
 
     def lag_dataserier(self) -> List[Dict]:
-        df = self.les_excel().dropna().reset_index()
+        if self.kilde == 'excel':
+            df = self.les_excel()
+        elif self.kilde == 'df':
+            df = self.les_df()
+        else:
+            raise ValueError(f"Invalid kilde: {self.kilde}. Expected 'excel' or 'df'.")
         df = df.sample(frac=1).reset_index(drop=True)
         colors = load_cmap("flattastic_flatui").colors
         colors = [colors[6]]
