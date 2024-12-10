@@ -13,6 +13,7 @@ class HighChartData:
                  df: pd.DataFrame = None,
                  kolonner: List[str] = None, 
                  svar_alternativer: List[str] = None,
+                 x_axis_labels: List[str] = None,
                  tilfeldige_farger: bool = None,
                  farger_seed: int = None
                  ):
@@ -21,6 +22,7 @@ class HighChartData:
         self.filnavn = filnavn
         self.kolonner = kolonner
         self.svar_alternativer = svar_alternativer
+        self.x_axis_labels = x_axis_labels or kolonner
         self.tilfeldige_farger = tilfeldige_farger
         self.farger_seed = farger_seed
         self.dataserier = self.lag_dataserier()
@@ -92,12 +94,12 @@ class KolonneData(HighChartData):
         antall = self.tell_antall(df)
         formatert_data = []
 
-        for kolonne, svar, data in zip(antall.keys(), self.svar_alternativer, antall.values()):
+        for kolonne, label, svar, data in zip(antall.keys(), self.x_axis_labels, self.svar_alternativer, antall.values()):
             colors = self.get_colors(len(data))  # Changed to use get_colors method
             data_with_colors = [{'y': value, 'color': colors[i]} for i, value in enumerate(data)]
 
             formatert_data.append({
-                'name': kolonne,
+                'name': label,
                 'type': 'column',
                 'data': data_with_colors,
             })
