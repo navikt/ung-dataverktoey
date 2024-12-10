@@ -226,6 +226,7 @@ class JitterKommentarDiagram(HighChartBase):
         options = HighchartsOptions(
             chart={'renderTo': self.diagram_id, 'type': 'scatter'},
             title={'text': self.tittel},
+            subtitle={'text': self.undertittel},
             legend={'enabled': True},
             x_axis={
                 'title': {'text': 'Polaritet'},
