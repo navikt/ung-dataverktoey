@@ -411,7 +411,7 @@ class KommentarData(HighChartData):
         
         # Iterate over each column in kolonner and apply the formatting function
         for col in self.kolonner:
-            df[col] = df[col].apply(lambda x: self.formater_kommentar_linjeskift(x))
+            df[col] = df[col].apply(lambda x: (self.formater_kommentar_linjeskift(x), print(x)))
 
         # Prepare data for Highcharts
         jitter_data = []
