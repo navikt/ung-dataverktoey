@@ -353,7 +353,21 @@ class JitterKommentarData(HighChartData):
         colors = load_cmap("flattastic_flatui").colors
         colors = [colors[3], colors[2], colors[1], colors[6]]
         dataserie = []
+
+        # Check if the DataFrame is empty
+        if df.empty:
+            print("The DataFrame is empty. No data to process.")
+            return dataserie
+
+        # Check if the expected columns are present
+        if self.label not in df.columns:
+            print(f"The DataFrame does not contain the expected column '{self.label}'.")
+            return dataserie
+
         for i, label in enumerate(self.svar_alternativer):
+            # Ensure the colors list is correctly indexed
+            color = colors[i % len(colors)]
+
             df_filtered = df[df[self.label] == label]
             jitter_data = self.lag_jitter_data(df_filtered, i + 1)
             dataserie.append({
@@ -364,7 +378,7 @@ class JitterKommentarData(HighChartData):
                     'radius': 5,
                     'symbol': 'circle'
                 },
-                'color': colors[i],
+                'color': color,
                 'tooltip': {
                     'pointFormat': '{point.custom.kommentar}'
                 },
