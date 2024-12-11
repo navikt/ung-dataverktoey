@@ -249,6 +249,7 @@ class KommentarDiagram(HighChartBase):
             title={'text': self.tittel},
             subtitle={'text': self.undertittel},
             legend={'enabled': False},
+            credits={'enabled': False},
             x_axis={
                 'title': {'text': ' '},
                 'labels': {'enabled': False},
