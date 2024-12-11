@@ -440,7 +440,7 @@ class KommentarData(HighChartData):
             },
             'color': colors[0],
             'tooltip': {
-                'formatter': "function() { return 'Kommentar: ' + this.custom.kommentar; }"
+                'formatter': "function() { return 'Kommentar: ' + this.point.custom.kommentar; }"
             },
         })
 
