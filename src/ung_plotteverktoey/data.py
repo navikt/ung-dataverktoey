@@ -356,12 +356,10 @@ class JitterKommentarData(HighChartData):
 
         # Check if the DataFrame is empty
         if df.empty:
-            print("The DataFrame is empty. No data to process.")
             return dataserie
 
         # Check if the expected columns are present
         if self.label not in df.columns:
-            print(f"The DataFrame does not contain the expected column '{self.label}'.")
             return dataserie
 
         for i, label in enumerate(self.svar_alternativer):

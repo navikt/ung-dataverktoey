@@ -1,9 +1,7 @@
 import uuid
 from highcharts_core.chart import Chart
 from highcharts_core.options import HighchartsOptions
-from highcharts_core.utility_classes.javascript_functions import CallbackFunction
 from pypalettes import load_cmap
-import json
 
 
 class HighChartBase:
@@ -228,6 +226,7 @@ class JitterKommentarDiagram(HighChartBase):
             title={'text': self.tittel},
             subtitle={'text': self.undertittel},
             legend={'enabled': True},
+            credits={'enabled': True},
             x_axis={
                 'title': {'text': 'Polaritet'},
                 'categories': [0, 'Positive', 'Mixed', 'Negative', 'Neutral']
