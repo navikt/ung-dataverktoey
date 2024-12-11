@@ -251,7 +251,9 @@ class KommentarDiagram(HighChartBase):
             legend={'enabled': False},
             x_axis={
                 'title': {'text': ' '},
-                'labels': {'enabled': False}
+                'labels': {'enabled': False},
+                'gridLineWidth': 0,
+                'lineWidth': 0
             },
             y_axis={
                 'title': {'text': ' '},
