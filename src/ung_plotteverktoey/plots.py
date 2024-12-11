@@ -242,56 +242,16 @@ class JitterKommentarDiagram(HighChartBase):
 
 
 
-
 class KommentarDiagram(HighChartBase):
-
-
-    def tooltip_formatter(self):
-        chart_data_json = json.dumps(self.data.dataserier[0]['data'])  # No need to manually escape quotes
-        # Define the JavaScript function for the tooltip formatter
-        formatter_js = f"""
-        function myTooltipFormatter() {{
-            var chartData = JSON.parse('{chart_data_json}');
-            var pointData = chartData.find(row => row.x === this.point.x);
-            return '<b>Svar nr:</b> ' + pointData.svar_nr + '<br>' +
-                '<b>Kommentar:</b> ' + '<br>' + pointData.kommentar;
-        }}
-        """
-        tooltip_formatter = CallbackFunction.from_js_literal(formatter_js)
-        return tooltip_formatter
-
-
-    def definer_innstillinger(self):
-        innstillinger = HighchartsOptions(
-            chart={
-                'type': 'scatter'
-            },
-            title={'text': self.tittel},
-            subtitle={'text':self.undertittel},
-            tooltip={
-                'formatter': self.tooltip_formatter()
-            },
-            series=[{
-                'name': 'Kommentar',
-                'data': [[row['x'], row['y']] for row in self.data.dataserier[0]['data']] 
-            }],
-            x_axis={'min': -0.3, 'max':1.3, 'visible': False},
-            y_axis={'title': {'text': ' '}, 'visible': False},
-            credits={'enabled': False},
-
-        )
-        return innstillinger
-
-
-class KommentarDiagram2(HighChartBase):
     def definer_innstillinger(self):
         options = HighchartsOptions(
             chart={'renderTo': self.diagram_id, 'type': 'scatter'},
             title={'text': self.tittel},
             subtitle={'text': self.undertittel},
-            legend={'enabled': True},
+            legend={'enabled': False},
             x_axis={
-                'title': {'text': 'Polaritet'},
+                'title': {'text': ' '},
+                'labels': {'enabled': False}
             },
             y_axis={
                 'title': {'text': ' '},
