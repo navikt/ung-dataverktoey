@@ -226,7 +226,7 @@ class JitterKommentarDiagram(HighChartBase):
             title={'text': self.tittel},
             subtitle={'text': self.undertittel},
             legend={'enabled': True},
-            credits={'enabled': True},
+            credits={'enabled': False},
             x_axis={
                 'title': {'text': 'Polaritet'},
                 'categories': [0, 'Positive', 'Mixed', 'Negative', 'Neutral']
