@@ -292,7 +292,6 @@ class KommentarDiagram2(HighChartBase):
             legend={'enabled': True},
             x_axis={
                 'title': {'text': 'Polaritet'},
-                'categories': [0, 'Positive', 'Mixed', 'Negative', 'Neutral']
             },
             y_axis={
                 'title': {'text': ' '},

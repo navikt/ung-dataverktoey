@@ -423,7 +423,9 @@ class KommentarData(HighChartData):
                     'svar_nr': int(index) + 1,
                     'x': random.random(),  
                     'y': random.random(),  
-                    'kommentar': row[col]
+                'custom': {
+                    'kommentar': row[col],
+                }
                 })
 
         # Create data series
@@ -436,6 +438,9 @@ class KommentarData(HighChartData):
                 'symbol': 'circle'
             },
             'color': colors[0],
+            'tooltip': {
+                'pointFormat': '{point.custom.kommentar}'
+            },
         })
 
         return dataserie
