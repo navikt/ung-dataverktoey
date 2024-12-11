@@ -428,11 +428,6 @@ class KommentarData(HighChartData):
                 }
                 })
 
-        js_tooltip_formatter = """
-    function() tooltip {
-        return 'Kommentar: ' + this.custom.kommentar;    
-    }
-"""
 
         # Create data series
         dataserie = []
@@ -445,7 +440,6 @@ class KommentarData(HighChartData):
             },
             'color': colors[0],
             'tooltip': {
-                'headerFormat' ' '
                 'pointFormat': '{point.custom.kommentar}'
             },
         })
