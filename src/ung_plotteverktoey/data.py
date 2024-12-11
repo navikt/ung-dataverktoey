@@ -440,7 +440,11 @@ class KommentarData(HighChartData):
             },
             'color': colors[0],
             'tooltip': {
-                'pointFormat': '{point.custom.kommentar}'
+                'headerFormat': '<strong>{series.name}</strong><br/>',
+                'pointFormat': '{point.custom.kommentar}',
+                'footerFormat': '<em>More info here</em>',
+                'shared': True
+
             },
         })
 
