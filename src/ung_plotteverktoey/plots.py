@@ -281,3 +281,26 @@ class KommentarDiagram(HighChartBase):
 
         )
         return innstillinger
+
+
+class KommentarDiagram2(HighChartBase):
+    def definer_innstillinger(self):
+        options = HighchartsOptions(
+            chart={'renderTo': self.diagram_id, 'type': 'scatter'},
+            title={'text': self.tittel},
+            subtitle={'text': self.undertittel},
+            legend={'enabled': True},
+            x_axis={
+                'title': {'text': 'Polaritet'},
+                'categories': [0, 'Positive', 'Mixed', 'Negative', 'Neutral']
+            },
+            y_axis={
+                'title': {'text': ' '},
+                'labels': {'enabled': False}
+            },
+            tooltip={
+                'pointFormat': '{point.kommentar}'
+            },
+            series=self.data.dataserier
+        )
+        return options
