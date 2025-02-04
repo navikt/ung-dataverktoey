@@ -2,13 +2,13 @@ from ung_dbverktoey.hemmeligheter import Tilgangskontroll
 import timeit
 from google.cloud import bigquery
 from google.oauth2 import service_account
-import cx_Oracle
+import oracledb
 
 
 
 class DatabaseConnector:
     config = {
-        "host_dvh": "dm08-scan.adeo.no",
+        "host_dvh": "dm08-scan.adeo.no:1521/dwh_ha",
         "port": "1521",
         "service_name": "dwh_ha"
     }
@@ -30,16 +30,16 @@ class DatabaseConnector:
         if kilde == "dvh":
             self.tilgang = Tilgangskontroll(hemmelighet_eier="PERSONLIG")
             if self.tilgang.sjekk_om_kjoerelokasjon_er_lokal():
-                dsnStr = cx_Oracle.makedsn(
-                    self.config["host_dvh"],
-                    self.config["port"],
-                    self.config["service_name"],
+                dsnStr = oracledb.makedsn(
+                    host=self.config["host_dvh"],
+                    port=self.config["port"],
+                    service_name=self.config["service_name"],
                 )
-                connection = cx_Oracle.connect(
+                connection = oracledb.connect(
                     user=self.tilgang.knada_hemeligheter['dvh_brukernavn'],
                     password=self.tilgang.knada_hemeligheter['dvh_passord'],
-                    dsn=dsnStr, 
-                    encoding="UTF-8")
+                    dsn=self.config['host_dvh']
+                    )
             
         return connection
 
