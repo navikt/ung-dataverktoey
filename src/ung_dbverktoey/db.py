@@ -2,14 +2,22 @@ from ung_dbverktoey.hemmeligheter import Tilgangskontroll
 import timeit
 from google.cloud import bigquery
 from google.oauth2 import service_account
+import cx_Oracle
+
 
 
 class DatabaseConnector:
-    def __init__(self):
-        self.tilgang = Tilgangskontroll()
+    config = {
+        "host_dvh": "dm08-scan.adeo.no",
+        "port": "1521",
+        "service_name": "dwh_ha"
+    }
+
 
     def koble_til_database(self, kilde):
-        if kilde == "BQ":
+        kilde = kilde.lower()
+        if kilde == "bq":
+            self.tilgang = Tilgangskontroll()
             if self.tilgang.sjekk_om_kjoerelokasjon_er_lokal():
                 connection = bigquery.Client(self.tilgang.prosjektnavn)
             else:
@@ -19,7 +27,20 @@ class DatabaseConnector:
                 connection = bigquery.Client(
                     self.tilgang.prosjektnavn, credentials=kredentiteter
                 )
-
+        if kilde == "dvh":
+            self.tilgang = Tilgangskontroll(hemmelighet_eier="PERSONLIG")
+            if self.tilgang.sjekk_om_kjoerelokasjon_er_lokal():
+                dsnStr = cx_Oracle.makedsn(
+                    self.config["host_dvh"],
+                    self.config["port"],
+                    self.config["service_name"],
+                )
+                connection = cx_Oracle.connect(
+                    user=self.tilgang.knada_hemeligheter['dvh_brukernavn'],
+                    password=self.tilgang.knada_hemeligheter['dvh_passord'],
+                    dsn=dsnStr, 
+                    encoding="UTF-8")
+            
         return connection
 
 
