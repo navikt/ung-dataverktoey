@@ -9,8 +9,6 @@ import oracledb
 class DatabaseConnector:
     config = {
         "host_dvh": "dm08-scan.adeo.no:1521/dwh_ha",
-        "port": "1521",
-        "service_name": "dwh_ha"
     }
 
 
@@ -30,11 +28,6 @@ class DatabaseConnector:
         if kilde == "dvh":
             self.tilgang = Tilgangskontroll(hemmelighet_eier="PERSONLIG")
             if self.tilgang.sjekk_om_kjoerelokasjon_er_lokal():
-                dsnStr = oracledb.makedsn(
-                    host=self.config["host_dvh"],
-                    port=self.config["port"],
-                    service_name=self.config["service_name"],
-                )
                 connection = oracledb.connect(
                     user=self.tilgang.knada_hemeligheter['dvh_brukernavn'],
                     password=self.tilgang.knada_hemeligheter['dvh_passord'],
