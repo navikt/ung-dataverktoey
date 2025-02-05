@@ -27,8 +27,16 @@ class Tilgangskontroll:
         """
         self.config = configparser.ConfigParser()
         self.config.read(os.path.join(self.finn_git_root(), "config.ini"))
-        self.brukernavn = self._hent_brukernavn()
-        self.knada_hemeligheter = self._hent_hemmeligheter(kwargs.get("hemmelighet_eier", "KNADA"))
+        try:
+            self.brukernavn = self._hent_brukernavn()
+        except NameError as e:
+            print(
+                "Error: Failed to authenticate with gcloud. Please run 'gcloud auth login --update-adc'."
+            )
+            raise RuntimeError("Failed to authenticate with gcloud.") from e
+        self.knada_hemeligheter = self._hent_hemmeligheter(
+            kwargs.get("hemmelighet_eier", "KNADA")
+        )
         self.prosjektnavn = self._hent_prosjektnavn()
         # self.gcp_hemmeligheter = self._hent_hemmeligheter("GCP")
 
@@ -132,7 +140,7 @@ class Tilgangskontroll:
         """
         if kilde not in self.config:
             self.config[kilde] = {}
-            self.config[kilde]['lokasjon_hemmeligheter'] = input(
+            self.config[kilde]["lokasjon_hemmeligheter"] = input(
                 f"Legg inn lokasjon for hemmeligheter for {kilde}: "
             )
             self._lagre_config()
@@ -166,7 +174,7 @@ class Tilgangskontroll:
             ):
                 lokasjon_hemmeligheter = self.config["PERSONLIG"][
                     "lokasjon_hemmeligheter"
-                ]  
+                ]
             else:
                 lokasjon_hemmeligheter = input(
                     "Legg inn lokasjon for hemmeligheter e.g. projects/[identifikator]/secrets/[gcp-prosjekt]/versions/latest: "
