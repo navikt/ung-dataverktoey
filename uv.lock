@@ -3000,6 +3000,7 @@ dependencies = [
     { name = "pypalettes" },
     { name = "pyyaml" },
     { name = "setuptools" },
+    { name = "sqlalchemy" },
 ]
 
 [package.optional-dependencies]
@@ -3038,6 +3039,7 @@ requires-dist = [
     { name = "pypalettes", specifier = ">=0.1.4" },
     { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "setuptools", specifier = ">=75.4.0" },
+    { name = "sqlalchemy", specifier = ">=2.0.36" },
 ]
 
 [package.metadata.requires-dev]
