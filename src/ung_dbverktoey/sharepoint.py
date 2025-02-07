@@ -66,10 +66,12 @@ class SharepointConnector:
             raise Exception(f"Feil ved henting av fil: {response.status_code} - {response.text}")
 
 
-    def send_email_med_servicekonto(autentiserings_token, subject, body, mottakere, avsender_epost, cc_mottakere=None):
+    def send_email_med_servicekonto(self, subject, body, mottakere, avsender_epost, cc_mottakere=None, autentiserings_token=None):
         """
         Send an email using Microsoft Graph API.
         """
+        if autentiserings_token is None:
+            autentiserings_token = self.autentiserings_token
 
         headers = {
             'Authorization': f'Bearer {autentiserings_token}',
