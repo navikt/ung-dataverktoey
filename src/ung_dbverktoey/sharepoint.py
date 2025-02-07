@@ -66,44 +66,44 @@ class SharepointConnector:
             raise Exception(f"Feil ved henting av fil: {response.status_code} - {response.text}")
 
 
-def send_email_med_servicekonto(autentiserings_token, subject, body, mottakere, avsender_epost, cc_mottakere=None):
-    """
-    Send an email using Microsoft Graph API.
-    """
+    def send_email_med_servicekonto(autentiserings_token, subject, body, mottakere, avsender_epost, cc_mottakere=None):
+        """
+        Send an email using Microsoft Graph API.
+        """
 
-    headers = {
-        'Authorization': f'Bearer {autentiserings_token}',
-        'Content-Type': 'application/json'
-    }
+        headers = {
+            'Authorization': f'Bearer {autentiserings_token}',
+            'Content-Type': 'application/json'
+        }
 
-    email_data = {
-        "message": {
-            "subject": subject,
-            "body": {
-                "contentType": "Text",
-                "content": body
+        email_data = {
+            "message": {
+                "subject": subject,
+                "body": {
+                    "contentType": "Text",
+                    "content": body
+                },
+                "toRecipients": [
+                    {"emailAddress": {"address": mottaker}} for mottaker in mottakere
+                ],
+                "ccRecipients": [
+                    {"emailAddress": {"address": recipient}} for recipient in cc_mottakere
+                ] if cc_mottakere else [],
+                "from": {
+                    "emailAddress": {"address": avsender_epost}
+                }
             },
-            "toRecipients": [
-                {"emailAddress": {"address": mottaker}} for mottaker in mottakere
-            ],
-            "ccRecipients": [
-                {"emailAddress": {"address": recipient}} for recipient in cc_mottakere
-            ] if cc_mottakere else [],
-            "from": {
-                "emailAddress": {"address": avsender_epost}
-            }
-        },
-        "saveToSentItems": "false"
-    }
+            "saveToSentItems": "false"
+        }
 
-    user_id = avsender_epost 
-    send_mail_url = f'https://graph.microsoft.com/v1.0/users/{user_id}/sendMail'
-    response = httpx.post(send_mail_url, headers=headers, json=email_data)
+        user_id = avsender_epost 
+        send_mail_url = f'https://graph.microsoft.com/v1.0/users/{user_id}/sendMail'
+        response = httpx.post(send_mail_url, headers=headers, json=email_data)
 
-    if response.status_code == 202:
-        print("Email sent successfully.")
-    else:
-        raise Exception(f"Error sending email: {response.status_code} - {response.text}")
+        if response.status_code == 202:
+            print("Email sent successfully.")
+        else:
+            raise Exception(f"Error sending email: {response.status_code} - {response.text}")
 
 
 
