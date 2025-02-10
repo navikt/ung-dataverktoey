@@ -14,9 +14,6 @@ warnings.filterwarnings(
 
 
 class DatabaseConnector:
-    config = {
-        "host_dvh": "dm08-scan.adeo.no:1521/dwh_ha",
-    }
 
     def koble_til_database(self, kilde):
         kilde = kilde.lower()
@@ -37,7 +34,7 @@ class DatabaseConnector:
                 connection = oracledb.connect(
                     user=self.tilgang.knada_hemeligheter["dvh_brukernavn"],
                     password=self.tilgang.knada_hemeligheter["dvh_passord"],
-                    dsn=self.config["host_dvh"],
+                    dsn=self.tilgang.knada_hemeligheter["dvh_passord"],
                 )
 
         return connection

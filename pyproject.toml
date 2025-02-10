@@ -4,7 +4,7 @@ version = "0.5.0"
 description = "Lokal pythonpakke for databehandlingsverktøy"
 readme = "README.md"
 authors = [
-    { name = "hellund", email = "eirik.duesund.helland@nav.no" }
+    { name = "team nav ung", email = "eirik.duesund.helland@nav.no" }
 ]
 requires-python = ">=3.11"
 dependencies = [
