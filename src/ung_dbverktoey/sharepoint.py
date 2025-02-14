@@ -82,7 +82,7 @@ class SharepointConnector:
             "message": {
                 "subject": subject,
                 "body": {
-                    "contentType": "Text",
+                    "contentType": "HTML",
                     "content": body
                 },
                 "toRecipients": [
