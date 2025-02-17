@@ -67,10 +67,12 @@ class Tilgangskontroll:
         str
             Stien til git-roten.
         """
-        git_root = subprocess.check_output(
-            ["git", "rev-parse", "--show-toplevel"], cwd=path
-        )
-        return git_root.decode("utf-8").strip()
+        try:
+            git_root = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'], stderr=subprocess.STDOUT)
+            return git_root.decode('utf-8').strip()
+        except subprocess.CalledProcessError as e:
+            print(f"Error while getting Git root: {e.output.decode('utf-8')}")
+            return os.getcwd() 
 
     def sjekk_om_kjoerelokasjon_er_lokal(self) -> bool:
         """
