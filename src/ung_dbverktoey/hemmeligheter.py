@@ -136,7 +136,7 @@ class Tilgangskontroll:
         str
             Prosjektnavnet.
         """
-        prosjektnavn = self.knada_hemeligheter["GCP_PAW_PROD"].get("project_id")
+        prosjektnavn = self.knada_hemeligheter.get("prosjektnavn")
         return prosjektnavn
 
     def _hent_hemmeligheter(self, kilde: str) -> Optional[Dict[str, str]]:

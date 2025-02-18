@@ -21,7 +21,6 @@ dependencies = [
     "msal>=1.31.1",
     "openpyxl>=3.1.5",
     "oracledb>=2.5.1",
-    "apache-airflow>=2.9.3",
 ]
 
 [project.optional-dependencies]
