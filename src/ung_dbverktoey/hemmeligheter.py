@@ -5,7 +5,6 @@ import gcloud_config_helper
 from typing import Optional, Dict
 import configparser
 import subprocess
-from airflow.models import Variable 
 
 
 class Tilgangskontroll:
@@ -36,11 +35,10 @@ class Tilgangskontroll:
         except (FileNotFoundError, configparser.Error) as e:
             print(f"Error reading config.ini: {e}. Falling back to Airflow variables.")
             
-            secrets = os.getenv("SECRETS")
 
             self.config["DEFAULT"] = {
-                "lokasjon_hemmeligheter": secrets.get("LOKASJON_HEMMELIGHETER"),
-                "prosjektnavn": secrets.get("PROSJEKTNAVN"),
+                "lokasjon_hemmeligheter": os.getenv("lokasjon_hemmeligheter"),
+                "prosjektnavn": os.getenv("prosjektnavn"),
             }
         try:
             self.brukernavn = self._hent_brukernavn()
