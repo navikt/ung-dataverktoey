@@ -36,7 +36,7 @@ class Tilgangskontroll:
         except (FileNotFoundError, configparser.Error) as e:
             print(f"Error reading config.ini: {e}. Falling back to Airflow variables.")
             
-            secrets = Variable.get("SECRETS", deserialize_json=True)
+            secrets = os.getenv("SECRETS")
 
             self.config["DEFAULT"] = {
                 "lokasjon_hemmeligheter": secrets.get("LOKASJON_HEMMELIGHETER"),
