@@ -36,7 +36,7 @@ class Tilgangskontroll:
             print(f"Error reading config.ini: {e}. Falling back to Airflow variables.")
             
 
-            self.config["DEFAULT"] = {
+            self.config["KNADA"] = {
                 "lokasjon_hemmeligheter": os.getenv("lokasjon_hemmeligheter"),
                 "prosjektnavn": os.getenv("prosjektnavn"),
             }
