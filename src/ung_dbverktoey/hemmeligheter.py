@@ -5,7 +5,6 @@ import gcloud_config_helper
 from typing import Optional, Dict
 import configparser
 import subprocess
-from airflow.models import Variable 
 
 
 class Tilgangskontroll:
@@ -31,12 +30,14 @@ class Tilgangskontroll:
             config_path = os.path.join(self.finn_git_root(), "config.ini")
             self.config.read(config_path)
             if not self.config.sections():
-                raise FileNotFoundError(f"No valid sections found in {config_path}, falling back to Airflow variables.")
+                raise FileNotFoundError(
+                    f"No valid sections found in {config_path}, falling back to Airflow variables."
+                )
 
         except (FileNotFoundError, configparser.Error) as e:
             print(f"Error reading config.ini: {e}. Falling back to Airflow variables.")
-            
-            secrets = Variable.get("SECRETS")
+
+            secrets = os.getenv("SECRETS")
 
             self.config["DEFAULT"] = {
                 "lokasjon_hemmeligheter": secrets.get("LOKASJON_HEMMELIGHETER"),
@@ -70,11 +71,13 @@ class Tilgangskontroll:
             Stien til git-roten.
         """
         try:
-            git_root = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'], stderr=subprocess.STDOUT)
-            return git_root.decode('utf-8').strip()
+            git_root = subprocess.check_output(
+                ["git", "rev-parse", "--show-toplevel"], stderr=subprocess.STDOUT
+            )
+            return git_root.decode("utf-8").strip()
         except subprocess.CalledProcessError as e:
             print(f"Error while getting Git root: {e.output.decode('utf-8')}")
-            return os.getcwd() 
+            return os.getcwd()
 
     def sjekk_om_kjoerelokasjon_er_lokal(self) -> bool:
         """
