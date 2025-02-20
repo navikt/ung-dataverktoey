@@ -1,6 +1,6 @@
 [project]
 name = "ung-dataverktoey"
-version = "0.6.0"
+version = "0.7.0"
 description = "Lokal pythonpakke for databehandlingsverktøy"
 readme = "README.md"
 authors = [

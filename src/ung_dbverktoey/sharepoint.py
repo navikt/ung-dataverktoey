@@ -8,9 +8,9 @@ class SharepointConnector:
     def __init__(self) -> None:
         self.tilgang = Tilgangskontroll()
         self.autentiserings_token = self.autentiser_mot_servicebruker(
-            self.tilgang.knada_hemeligheter['sharepoint_ung_client_id'],
-            self.tilgang.knada_hemeligheter['sharepoint_ung_tenant_id'],
-            self.tilgang.knada_hemeligheter['sharepoint_ung_client_secret']
+            self.tilgang.hemmeligheter['sharepoint_ung_client_id'],
+            self.tilgang.hemmeligheter['sharepoint_ung_tenant_id'],
+            self.tilgang.hemmeligheter['sharepoint_ung_client_secret']
         )
 
     def autentiser_mot_servicebruker(self, client_id, tenant_id, client_secret):
