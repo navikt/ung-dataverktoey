@@ -23,7 +23,7 @@ class DatabaseConnector:
                 connection = bigquery.Client(self.tilgang.prosjektnavn)
             else:
                 kredentiteter = service_account.Credentials.from_service_account_info(
-                    self.tilgang.knada_hemeligheter["service_account_key"]
+                    self.tilgang.hemmeligheter["service_account_key"]
                 )
                 connection = bigquery.Client(
                     self.tilgang.prosjektnavn, credentials=kredentiteter
@@ -32,9 +32,9 @@ class DatabaseConnector:
             self.tilgang = Tilgangskontroll(hemmelighet_eier="PERSONLIG")
             if self.tilgang.sjekk_om_kjoerelokasjon_er_lokal():
                 connection = oracledb.connect(
-                    user=self.tilgang.knada_hemeligheter["dvh_brukernavn"],
-                    password=self.tilgang.knada_hemeligheter["dvh_passord"],
-                    dsn=self.tilgang.knada_hemeligheter["dvh_passord"],
+                    user=self.tilgang.hemmeligheter["dvh_brukernavn"],
+                    password=self.tilgang.hemmeligheter["dvh_passord"],
+                    dsn=self.tilgang.hemmeligheter["dvh_passord"],
                 )
 
         return connection
